@@ -27,6 +27,7 @@ class _MapPageState extends State<MapPage> {
         //print(data);
       },
       onTap: (position) {
+        final tempMarkerId = markerIdCount;
         final Marker marker = Marker(
           markerId: new MarkerId(markerIdCount.toString()),
           position: position,
@@ -35,7 +36,7 @@ class _MapPageState extends State<MapPage> {
             snippet: "Niterói/RJ",
           ),
           onTap: () {
-            selectedMarkerId = this.;
+            selectedMarkerId = tempMarkerId;
             print(selectedMarkerId);
           }
         );
@@ -76,7 +77,7 @@ class _MapPageState extends State<MapPage> {
       tempMarker.clear();
     } else if (savedMarkers.length > 0) {
       print(selectedMarkerId);
-      savedMarkers.removeWhere((marker) { print(int.parse(marker.markerId.value)); return int.parse(marker.markerId.value) == selectedMarkerId; });
+      savedMarkers.removeWhere((marker) { print(int.parse(marker.markerId.value)); print(int.parse(marker.markerId.value) == selectedMarkerId); return int.parse(marker.markerId.value) == selectedMarkerId; });
     }
   }
 
