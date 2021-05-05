@@ -96,7 +96,7 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Onibus - Map"),
+        title: Text("Onify - Map"),
       ),
       body: Container(
         child: Stack(
