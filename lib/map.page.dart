@@ -58,12 +58,12 @@ class _MapPageState extends State<MapPage> {
     );
   }
 
-  void saveMarker() async {
-    final data = await Navigator.push(context, MaterialPageRoute(
-      builder: (BuildContext context) {
-        return AddMarkerScreen();
-      },
-    )) as Map<String, String>;
+  Future saveMarker() async {
+    final data = await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AddMarkerScreen();
+        }) as Map<String, String>;
     final tempMarkerId = markerIdCount;
     setState(() {
       savedMarkers.add(
@@ -129,26 +129,46 @@ class AddMarkerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     String markerTitle;
     String markerSnippet;
-    return Scaffold(
-        body: Column(
-        children: [
-            Container(
-              height: 50,
-            ),
-            Text('Nome do Ponto:'),
-            TextField(
-              onChanged: (text) {
-                markerTitle = text;
-              },
-            ),
-            Text('Endereço:'),
-            TextField(
-              onChanged: (text) {
-                markerSnippet = text;
-              },
-            ),
-            Row(
+    return SimpleDialog(
+      title: const Text('Adicionar Ponto (Marker)'),
+      children: [
+        Container(
+          margin: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
+          child: Column(
+            children: [
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Nome do Ponto (Marker)',
+                ),
+                onChanged: (text) {
+                  markerTitle = text;
+                },
+              ),
+              Container(
+                height: 20,
+              ),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Endereço',
+                ),
+                onChanged: (text) {
+                  markerSnippet = text;
+                },
+              ),
+              Container(
+                height: 20,
+              ),
+              Row(
                 children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('Cancelar'),
+                  ),
+                  Container(
+                    width: 67,
+                  ),
                   ElevatedButton(
                     onPressed: () {
                       final data = {'markerTitle': markerTitle, 'markerSnippet': markerSnippet};
@@ -156,16 +176,12 @@ class AddMarkerScreen extends StatelessWidget {
                     },
                     child: Text('Confirmar'),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text('Cancelar'),
-                  ),
-                ]
-            )
-          ],
-        )
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
