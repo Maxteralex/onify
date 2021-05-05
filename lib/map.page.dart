@@ -8,12 +8,13 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   GoogleMapController mapController;
-  Set<Marker> saved_markers = new Set<Marker>();
-  Set<Marker> temp_marker = new Set<Marker>();
+  Set<Marker> savedMarkers = new Set<Marker>();
+  Set<Marker> tempMarker = new Set<Marker>();
+  int selectedMarkerId;
   // atualmente aponta para Niteroi
   double lat = -22.899153475969282;
   double long = -43.107521571547025;
-  int marker_id = 0;
+  int markerIdCount = 0;
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -27,25 +28,28 @@ class _MapPageState extends State<MapPage> {
       },
       onTap: (position) {
         final Marker marker = Marker(
-          markerId: new MarkerId(marker_id.toString()),
+          markerId: new MarkerId(markerIdCount.toString()),
           position: position,
           infoWindow: InfoWindow(
             title: "Teste",
             snippet: "Niterói/RJ",
           ),
+          onTap: () {
+            selectedMarkerId = this.;
+            print(selectedMarkerId);
+          }
         );
         setState(() {
-          temp_marker.clear();
-          temp_marker.add(marker);
+          tempMarker.clear();
+          tempMarker.add(marker);
         });
-        marker_id++;
-        print(position);
+        markerIdCount++;
       },
       initialCameraPosition: CameraPosition(
         target: LatLng(lat, long),
         zoom: 11.0,
       ),
-      markers: saved_markers.union(temp_marker),
+      markers: savedMarkers.union(tempMarker),
     );
   }
 
@@ -63,12 +67,17 @@ class _MapPageState extends State<MapPage> {
   }
 
   void saveMarker() {
-    saved_markers.add(temp_marker.first);
-    temp_marker.clear();
+    savedMarkers.add(tempMarker.first);
+    tempMarker.clear();
   }
 
   void removeSavedMarker() {
-
+    if (tempMarker.length > 0 && int.parse(tempMarker.first.markerId.value) == selectedMarkerId) {
+      tempMarker.clear();
+    } else if (savedMarkers.length > 0) {
+      print(selectedMarkerId);
+      savedMarkers.removeWhere((marker) { print(int.parse(marker.markerId.value)); return int.parse(marker.markerId.value) == selectedMarkerId; });
+    }
   }
 
   @override
