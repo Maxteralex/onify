@@ -26,25 +26,16 @@ class _MapPageState extends State<MapPage> {
       onCameraMove: (data) {
         //print(data);
       },
-      onTap: (position) {
-        final tempMarkerId = markerIdCount;
+      onLongPress: (position) {
         final Marker marker = Marker(
-          markerId: new MarkerId(markerIdCount.toString()),
-          position: position,
-          infoWindow: InfoWindow(
-            title: "Teste",
-            snippet: "Niterói/RJ",
-          ),
-          onTap: () {
-            selectedMarkerId = tempMarkerId;
-            print(selectedMarkerId);
-          }
+            markerId: new MarkerId(markerIdCount.toString()),
+            position: position,
         );
         setState(() {
           tempMarker.clear();
           tempMarker.add(marker);
+          markerIdCount++;
         });
-        markerIdCount++;
       },
       initialCameraPosition: CameraPosition(
         target: LatLng(lat, long),
@@ -68,17 +59,32 @@ class _MapPageState extends State<MapPage> {
   }
 
   void saveMarker() {
-    savedMarkers.add(tempMarker.first);
-    tempMarker.clear();
+    final tempMarkerId = markerIdCount;
+    setState(() {
+      savedMarkers.add(
+        Marker(
+          markerId: new MarkerId(markerIdCount.toString()),
+          position: tempMarker.first.position,
+          infoWindow: InfoWindow(
+            title: "Teste",
+            snippet: "Niterói/RJ",
+          ),
+          onTap: () {
+            selectedMarkerId = tempMarkerId;
+          }
+        )
+      );
+      tempMarker.clear();
+      markerIdCount++;
+    });
   }
 
   void removeSavedMarker() {
-    if (tempMarker.length > 0 && int.parse(tempMarker.first.markerId.value) == selectedMarkerId) {
-      tempMarker.clear();
-    } else if (savedMarkers.length > 0) {
-      print(selectedMarkerId);
-      savedMarkers.removeWhere((marker) { print(int.parse(marker.markerId.value)); print(int.parse(marker.markerId.value) == selectedMarkerId); return int.parse(marker.markerId.value) == selectedMarkerId; });
-    }
+      if (savedMarkers.length > 0) {
+        setState(() {
+          savedMarkers.removeWhere((marker) { return int.parse(marker.markerId.value) == selectedMarkerId; });
+        });
+      }
   }
 
   @override
