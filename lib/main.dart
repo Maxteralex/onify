@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_t1/Model/bus.dart';
+import 'package:flutter_t1/Model/route.dart';
 import 'package:flutter_t1/map.page.dart';
 import 'package:flutter_t1/route.page.dart';
+import 'package:provider/provider.dart';
 
 Widget navigationBar(BuildContext context) {
   double bottomBarHeight = 75; // set bottom bar height
@@ -11,7 +14,10 @@ Widget navigationBar(BuildContext context) {
     width: MediaQuery.of(context).size.width,
     child: _show
         ?BottomNavigationBar(
+      backgroundColor: Colors.blueGrey,
       currentIndex: 2,
+      unselectedItemColor: Colors.white,
+      selectedItemColor: Colors.lightGreenAccent,
       type: BottomNavigationBarType.fixed,
       items: [
         BottomNavigationBarItem(
@@ -25,6 +31,7 @@ Widget navigationBar(BuildContext context) {
         BottomNavigationBarItem(
           icon: new Icon(Icons.map),
           label: 'Map',
+
         ),
         BottomNavigationBarItem(
             icon: Icon(Icons.add_road), label: 'Route'),
@@ -38,13 +45,20 @@ Widget navigationBar(BuildContext context) {
 }
 
 void main() {
-  runApp(MaterialApp(
-    initialRoute: '/',
-    routes: {
-      '/': (context) => Home(),
-      // '/routes/': (context) => RoutePage(),
-    },
-  ));
+  runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => RouteModel()),
+          Provider(create: (context) => BusModel()),
+        ],
+        child: MaterialApp(
+          initialRoute: '/',
+          routes: {
+            '/': (context) => Home(),
+            // '/routes/': (context) => RoutePage(),
+          },
+        ),
+      ));
 }
 
 class Home extends StatefulWidget {

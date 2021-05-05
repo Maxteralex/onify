@@ -96,7 +96,11 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Onify - Map"),
+        backgroundColor: Colors.blueGrey,
+        title: Text("Onify",
+          style: TextStyle(fontStyle: FontStyle.normal, fontSize: 37, fontWeight: FontWeight.bold, fontFamily: 'Cinzel'  ),
+        ),
+        centerTitle: true,
       ),
       body: Container(
         child: Stack(
