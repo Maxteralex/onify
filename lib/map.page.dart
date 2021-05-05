@@ -58,7 +58,12 @@ class _MapPageState extends State<MapPage> {
     );
   }
 
-  void saveMarker() {
+  void saveMarker() async {
+    final data = await Navigator.push(context, MaterialPageRoute(
+      builder: (BuildContext context) {
+        return AddMarkerScreen();
+      },
+    )) as Map<String, String>;
     final tempMarkerId = markerIdCount;
     setState(() {
       savedMarkers.add(
@@ -66,8 +71,8 @@ class _MapPageState extends State<MapPage> {
           markerId: new MarkerId(markerIdCount.toString()),
           position: tempMarker.first.position,
           infoWindow: InfoWindow(
-            title: "Teste",
-            snippet: "Niterói/RJ",
+            title: data['markerTitle'],
+            snippet: data['markerSnippet'],
           ),
           onTap: () {
             selectedMarkerId = tempMarkerId;
@@ -115,6 +120,52 @@ class _MapPageState extends State<MapPage> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class AddMarkerScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    String markerTitle;
+    String markerSnippet;
+    return Scaffold(
+        body: Column(
+        children: [
+            Container(
+              height: 50,
+            ),
+            Text('Nome do Ponto:'),
+            TextField(
+              onChanged: (text) {
+                markerTitle = text;
+              },
+            ),
+            Text('Endereço:'),
+            TextField(
+              onChanged: (text) {
+                markerSnippet = text;
+              },
+            ),
+            Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      final data = {'markerTitle': markerTitle, 'markerSnippet': markerSnippet};
+                      Navigator.pop(context, data);
+                    },
+                    child: Text('Confirmar'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('Cancelar'),
+                  ),
+                ]
+            )
+          ],
+        )
     );
   }
 }
