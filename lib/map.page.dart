@@ -129,16 +129,28 @@ class AddMarkerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     String markerTitle;
     String markerSnippet;
+
+    Widget dialogButton(Function function, String name, Color color) {
+      return ElevatedButton(
+          onPressed: function,
+          child: Text(name),
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(color),
+          )
+      );
+    }
+
     return SimpleDialog(
       title: const Text('Adicionar Ponto (Marker)'),
       children: [
         Container(
-          margin: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
+          margin: EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 0.0),
           child: Column(
             children: [
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Nome do Ponto (Marker)',
+                  border: OutlineInputBorder(),
                 ),
                 onChanged: (text) {
                   markerTitle = text;
@@ -150,6 +162,7 @@ class AddMarkerScreen extends StatelessWidget {
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Endereço',
+                  border: OutlineInputBorder(),
                 ),
                 onChanged: (text) {
                   markerSnippet = text;
@@ -160,21 +173,22 @@ class AddMarkerScreen extends StatelessWidget {
               ),
               Row(
                 children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text('Cancelar'),
-                  ),
+                  dialogButton(() { Navigator.pop(context); }, 'Cancelar', Colors.red),
                   Container(
                     width: 67,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      final data = {'markerTitle': markerTitle, 'markerSnippet': markerSnippet};
-                      Navigator.pop(context, data);
-                    },
-                    child: Text('Confirmar'),
+                  dialogButton(
+                    () {
+                      if (markerTitle != '') {
+                        final data = {
+                          'markerTitle': markerTitle,
+                          'markerSnippet': markerSnippet
+                        };
+                        Navigator.pop(context, data);
+                      } else {
+
+                      }
+                    }, 'Confirmar', Colors.blue
                   ),
                 ],
               ),
