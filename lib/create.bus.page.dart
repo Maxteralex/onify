@@ -6,43 +6,6 @@ import 'package:flutter/services.dart';
 import 'model/bus.dart';
 
 
-class CounterFormField extends FormField<int> {
-
-  CounterFormField({
-    FormFieldSetter<int> onSaved,
-    FormFieldValidator<int> validator,
-    int initialValue = 0,
-    bool autovalidate = false
-  }) : super(
-      onSaved: onSaved,
-      validator: validator,
-      initialValue: initialValue,
-      enabled: autovalidate,
-      builder: (FormFieldState<int> state) {
-        return Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.remove),
-              onPressed: () {
-                state.didChange(state.value - 1);
-              },
-            ),
-            Text(
-                state.value.toString()
-            ),
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                state.didChange(state.value + 1);
-              },
-            ),
-          ],
-        );
-      }
-  );
-}
-
 class CreateBus extends StatefulWidget {
   @override
   _CreateBusState createState() => _CreateBusState();
@@ -123,24 +86,15 @@ class _CreateBusState extends State<CreateBus> {
                       if (value.isEmpty) return "Por favor insira a marca do veículo!";
                       return null;
                     }),
-                CounterFormField(
-                  autovalidate: false,
-                  validator: (value) {
-                    if (value < 0) {
-                      return 'Negative values not supported';
-                    } return null;
-                  },
-                  onSaved: (value) => this.busNumber = value,
-                ),
                 TextFormField(
-                    onSaved: (val) => brand = val ,
+                    onSaved: (val) => busNumber = int.parse(val) ,
                     decoration: InputDecoration(
                       labelText: 'Numero da Rota',
                       icon: Icon(
                         Icons.branding_watermark,
                         color: Colors.black,
                         size: 24.0,
-                        semanticLabel: 'Marca do veículo',
+                        semanticLabel: 'Qual a rota do ônibus',
                       ),
                     ),
                     keyboardType: TextInputType.number,
@@ -148,7 +102,7 @@ class _CreateBusState extends State<CreateBus> {
                       FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                     ],
                     validator: (value) {
-                      if (value.isEmpty) return "Por favor insira a marca do veículo!";
+                      if (value.isEmpty) return "Por favor insira a rota do veículo!";
                       return null;
                     }),
                 Container(
