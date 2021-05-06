@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_t1/model/bus.dart';
-import 'package:flutter_t1/model/route.dart';
-import 'package:flutter_t1/map.page.dart';
-import 'package:flutter_t1/route.page.dart';
 import 'package:provider/provider.dart';
-
+import 'route.page.dart';
 import 'bus.page.dart';
+import 'map.page.dart';
+import 'model/bus.dart';
+import 'model/bus.stop.dart';
+import 'model/route.dart';
 
 Widget navigationBar(BuildContext context, int selectedIndex) {
   double bottomBarHeight = 75; // set bottom bar height
   bool _show = true;
 
   void _onItemTapped(int index) {
-    switch (index) {
-
-      case 0: Navigator.pushNamed(context, '/'); break;
-      case 1: Navigator.pushNamed(context, '/bus'); break;
-      case 3: Navigator.pushNamed(context, '/route'); break;
+    if (selectedIndex != index) {
+      Navigator.pop(context);
+      switch (index) {
+        case 0: Navigator.pushNamed(context, '/'); break;
+        case 1: Navigator.pushNamed(context, '/bus'); break;
+        case 3: Navigator.pushNamed(context, '/route'); break;
+      }
+      selectedIndex = index;
     }
-    selectedIndex = index;
   }
 
   return Container(
@@ -45,8 +47,8 @@ Widget navigationBar(BuildContext context, int selectedIndex) {
           label: 'Driver',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.add_road),
-          label: 'Route'
+            icon: Icon(Icons.add_road),
+            label: 'Route'
         ),
       ],
       onTap: _onItemTapped,
@@ -62,8 +64,9 @@ void main() {
   runApp(
       MultiProvider(
         providers: [
+          ChangeNotifierProvider(create: (context) => BusStopModel()),
           ChangeNotifierProvider(create: (context) => RouteModel()),
-          Provider(create: (context) => BusModel()),
+          ChangeNotifierProvider(create: (context) => BusModel()),
         ],
         child: MaterialApp(
           initialRoute: '/',
@@ -105,7 +108,7 @@ class _BusState extends State<Bus> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: navigationBar(context, selectedIndex),
-       body: BusPage(),
+      body: BusPage(),
     );
   }
 }
