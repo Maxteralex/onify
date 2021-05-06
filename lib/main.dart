@@ -5,6 +5,8 @@ import 'package:flutter_t1/map.page.dart';
 import 'package:flutter_t1/route.page.dart';
 import 'package:provider/provider.dart';
 
+import 'bus.page.dart';
+
 Widget navigationBar(BuildContext context, int selectedIndex) {
   double bottomBarHeight = 75; // set bottom bar height
   bool _show = true;
@@ -103,7 +105,7 @@ class _BusState extends State<Bus> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: navigationBar(context, selectedIndex),
-      // body: BusPage(),
+       body: BusPage(),
     );
   }
 }
