@@ -1,32 +1,47 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_t1/Model/bus.dart';
-import 'package:flutter_t1/Model/bus.stop.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class RouteModel extends ChangeNotifier{
   List<Route> _routes = [];
 
-  void add(Route route) {
-    _routes.add(route);
-    // This call tells the widgets that are listening to this model to rebuild.
+  List<Route> get routes {
+    return _routes;
+  }
+
+  void add(String routeName, int routeNumber) {
+    _routes.add(new Route(routeName: routeName, routeNumber: routeNumber));
     notifyListeners();
   }
 
-  /// Removes all items from the cart.
+  void removeAt(int index) {
+    _routes.removeAt(index);
+    notifyListeners();
+  }
+
   void removeAll() {
     _routes.clear();
-    // This call tells the widgets that are listening to this model to rebuild.
     notifyListeners();
   }
 }
 
-
-
 class Route {
   String routeName;
   int routeNumber;
-  List<BusStop> busStops;
+  Set<Marker> busStops;
   List<Bus> buses;
 
-  Route({this.routeName, this.routeNumber, this.busStops, this.buses});
+  Route({this.routeName, this.routeNumber});
+
+  void addBusStop(Marker marker) {
+    busStops.add(marker);
+  }
+
+  void addAllBusStops(List<Marker> markers) {
+    busStops.addAll(markers);
+  }
+
+  void removeBusStop(Marker marker) {
+    busStops.remove(marker);
+  }
 }

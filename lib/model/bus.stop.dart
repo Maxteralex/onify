@@ -1,9 +1,21 @@
-import 'package:flutter_t1/Model/bus.dart';
-import 'package:flutter_t1/main.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class BusStop {
-  String busStopName;
-  String address;
+class BusStopModel extends ChangeNotifier{
+  Set<Marker> _busStops = {};
+  int _idCounter = 0;
 
-  BusStop({this.busStopName, this.address});
+  Set<Marker> get routes {
+    return _busStops;
+  }
+
+  void add(String routeName, int routeNumber) {
+    _busStops.add(new Marker(markerId: MarkerId(_idCounter.toString())));
+    notifyListeners();
+  }
+
+  void removeAll() {
+    _busStops.clear();
+    notifyListeners();
+  }
 }
