@@ -1,10 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_t1/create.bus.page.dart';
-import 'package:flutter_t1/model/bus.dart';
-
-
-
+import 'create.bus.page.dart';
+import 'model/bus.dart';
 
 class BusPage extends StatefulWidget {
   // This widget is the root of your application.

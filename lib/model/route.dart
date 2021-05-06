@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_t1/Model/bus.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'bus.dart';
 
 class RouteModel extends ChangeNotifier{
   List<Route> _routes = [];

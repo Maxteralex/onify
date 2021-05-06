@@ -3,8 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_t1/model/bus.dart';
-import 'package:flutter_t1/presentation/my_flutter_app_icons.dart';
+import 'model/bus.dart';
 
 class CreateBus extends StatefulWidget {
   @override

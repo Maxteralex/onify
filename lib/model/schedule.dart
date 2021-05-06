@@ -1,5 +1,5 @@
-import 'package:flutter_t1/Model/bus.dart';
 import 'driver.dart';
+import 'bus.dart';
 
 class Schedule {
   List<ScheduleDay> list;

@@ -1,11 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.flutter_t1">
+    package="com.example.onify_app">
    <application
-        android:label="flutter_t1"
+        android:label="onify_app"
         android:icon="@mipmap/ic_launcher">
         <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCYdMwhKkGB6fVAuznq5c0He-r4U533D_A"/>
+           android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyCYdMwhKkGB6fVAuznq5c0He-r4U533D_A"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

@@ -5,12 +5,13 @@ class BusStopModel extends ChangeNotifier{
   Set<Marker> _busStops = {};
   int _idCounter = 0;
 
-  Set<Marker> get routes {
+  Set<Marker> get busStops {
     return _busStops;
   }
 
   void add(String routeName, int routeNumber) {
     _busStops.add(new Marker(markerId: MarkerId(_idCounter.toString())));
+    _idCounter++;
     notifyListeners();
   }
 

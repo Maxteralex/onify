@@ -1,4 +1,4 @@
-package com.example.flutter_t1
+package com.example.onify_app
 
 import io.flutter.embedding.android.FlutterActivity
 
