@@ -5,6 +5,44 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'model/bus.dart';
 
+
+class CounterFormField extends FormField<int> {
+
+  CounterFormField({
+    FormFieldSetter<int> onSaved,
+    FormFieldValidator<int> validator,
+    int initialValue = 0,
+    bool autovalidate = false
+  }) : super(
+      onSaved: onSaved,
+      validator: validator,
+      initialValue: initialValue,
+      enabled: autovalidate,
+      builder: (FormFieldState<int> state) {
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.remove),
+              onPressed: () {
+                state.didChange(state.value - 1);
+              },
+            ),
+            Text(
+                state.value.toString()
+            ),
+            IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                state.didChange(state.value + 1);
+              },
+            ),
+          ],
+        );
+      }
+  );
+}
+
 class CreateBus extends StatefulWidget {
   @override
   _CreateBusState createState() => _CreateBusState();
@@ -15,8 +53,7 @@ class _CreateBusState extends State<CreateBus> {
   String plate;
   String brand;
   int busNumber;
-  TextEditingController _dataNewBus = TextEditingController();
-
+  final busNumerController = TextEditingController();
   //Validação e Salvamento na lista
   void _salvarForm() {
     if (_formKey.currentState.validate()) {
@@ -32,6 +69,7 @@ class _CreateBusState extends State<CreateBus> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text(
             "Adicionar Onibus",
@@ -46,7 +84,7 @@ class _CreateBusState extends State<CreateBus> {
             ),
           ),
         ),
-        body: SafeArea(
+        body: SingleChildScrollView(child: SafeArea(
           minimum: const EdgeInsets.all(15.0),
           child: Form(
             key: _formKey,
@@ -85,10 +123,19 @@ class _CreateBusState extends State<CreateBus> {
                       if (value.isEmpty) return "Por favor insira a marca do veículo!";
                       return null;
                     }),
+                CounterFormField(
+                  autovalidate: false,
+                  validator: (value) {
+                    if (value < 0) {
+                      return 'Negative values not supported';
+                    } return null;
+                  },
+                  onSaved: (value) => this.busNumber = value,
+                ),
                 TextFormField(
-                    onSaved: (val) => brand = val,
+                    onSaved: (val) => brand = val ,
                     decoration: InputDecoration(
-                      labelText: 'Marca',
+                      labelText: 'Numero da Rota',
                       icon: Icon(
                         Icons.branding_watermark,
                         color: Colors.black,
@@ -117,6 +164,6 @@ class _CreateBusState extends State<CreateBus> {
               ],
             ),
           ),
-        ));
+        )));
   }
 }

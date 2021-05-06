@@ -6,6 +6,10 @@ import 'driver.dart';
 class BusModel extends ChangeNotifier{
   List<Bus> _buses = [];
 
+  List<Bus> get buses {
+    return _buses;
+  }
+
   void add(Bus bus) {
     _buses.add(bus);
     // This call tells the widgets that are listening to this model to rebuild.

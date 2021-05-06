@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'create.bus.page.dart';
 import 'model/bus.dart';
+import 'package:provider/provider.dart';
 
 class BusPage extends StatefulWidget {
   // This widget is the root of your application.
@@ -14,8 +15,8 @@ class _HomeState extends State<BusPage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Trabalho Flutter',
-      theme: ThemeData(primarySwatch: Colors.deepPurple),
-      home: MyHomePage(title: 'Lista de Usuários'),
+      theme: ThemeData(primarySwatch: Colors.blueGrey),
+      home: MyHomePage(title: 'Lista de Ônibus'),
     );
   }
 }
@@ -71,7 +72,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     title: Text(
                       'Placa:\t${buses[index].plate}',
                     ),
-                    subtitle: Text('Rota pertencente:\t${buses[index].busNumber}'),
+                    subtitle:
+                        Text('Rota pertencente:\t${buses[index].busNumber}'),
                   ),
                   background: arrastarParaDireitaBackground(),
                   secondaryBackground: arrastarParaEsquerdaBackground(),
