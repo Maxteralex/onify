@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_t1/Model/bus.dart';
-import 'package:flutter_t1/Model/route.dart';
+import 'package:flutter_t1/model/bus.dart';
+import 'package:flutter_t1/model/route.dart';
 import 'package:flutter_t1/map.page.dart';
 import 'package:flutter_t1/route.page.dart';
 import 'package:provider/provider.dart';
@@ -74,15 +74,13 @@ void main() {
       ));
 }
 
-
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
-
 class _HomeState extends State<Home> {
-  int selectedIndex = 2;
+  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -93,12 +91,10 @@ class _HomeState extends State<Home> {
   }
 }
 
-
 class Bus extends StatefulWidget {
   @override
   _BusState createState() => _BusState();
 }
-
 
 class _BusState extends State<Bus> {
   int selectedIndex = 1;
@@ -112,12 +108,10 @@ class _BusState extends State<Bus> {
   }
 }
 
-
 class Route extends StatefulWidget {
   @override
   _RouteState createState() => _RouteState();
 }
-
 
 class _RouteState extends State<Route> {
   int selectedIndex = 3;

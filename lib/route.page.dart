@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'Model/route.dart';
+import 'model/route.dart';
 
 class RoutePage extends StatefulWidget {
   @override
