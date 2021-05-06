@@ -71,9 +71,6 @@ class _RoutePageState extends State<RoutePage> {
                               )
                           )
                       );
-                      setState(() {
-                        print('edit não foi feito ainda');
-                      });
                     }
                   },
                 );
@@ -211,7 +208,7 @@ class ShowRouteInfoScreen extends StatelessWidget {
                   dialogButton(
                     () {
                       Navigator.pop(context);
-                    }, 'Adicionar Pontos à Rota', Colors.green
+                    }, 'Voltar', Colors.blue
                   ),
                 ],
               ),
