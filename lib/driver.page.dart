@@ -1,21 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'create.bus.page.dart';
-import 'model/bus.dart';
-import 'package:provider/provider.dart';
+import 'create.driver.page.dart';
+import 'package:intl/intl.dart';
 
-class BusPage extends StatefulWidget {
+import 'model/driver.dart';
+
+class DriverPage extends StatefulWidget {
   // This widget is the root of your application.
   @override
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<BusPage> {
+class _HomeState extends State<DriverPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Bus',
-      home: MyHomePage(title: 'Lista de Ônibus'),
+      title: 'Driver',
+      home: MyHomePage(title: 'Lista de Motoristas'),
     );
   }
 }
@@ -30,43 +31,41 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<Bus> buses = [
-    Bus(brand: 'Volkswagen', busNumber: 1, plate: 'RIO2A18'),
-    Bus(brand: 'FIAT', busNumber: 2, plate: 'KXA2A33'),
-    Bus(brand: 'Volkswagen', busNumber: 2, plate: 'PPO1Y01'),
-    Bus(brand: 'Volkswagen', busNumber: 2, plate: 'REO2Y73'),
-    Bus(brand: 'HYUNDAI', busNumber: 3, plate: 'VBO0Y76'),
-    Bus(brand: 'HYUNDAI', busNumber: 1, plate: 'IOO8Y21'),
+  List<Driver> drivers = [
+    Driver(name: 'Joao Mateus Costa',birthDate: DateTime.utc(1975, 03, 14),cpf: '12356794576',driversLicenseType: 'D',civilState: 'married',sex: 'M' ),
+    Driver(name: 'Marcela Dantas da Silva',birthDate: DateTime.utc(1978, 05, 24),cpf: '14567834521',driversLicenseType: 'E',civilState: 'single',sex: 'F' ),
+    Driver(name: 'Julia Lima Carpilovsky',birthDate: DateTime.utc(1976, 02, 7),cpf: '14567834521',driversLicenseType: 'E',civilState: 'single',sex: 'F' ),
   ];
 
-  // Função que espera o Usuario ser criado
-  _esperaDoNovoOnibus(BuildContext context, Widget page) async {
-    Bus addBus;
+  // Função que espera o Motorista ser criado
+  _waitingForNewDriver(BuildContext context, Widget page) async {
+    Driver addDriver;
     final result = await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => page,
-        )) as Bus;
+        )) as Driver;
     if (result != null) {
-      addBus = result;
+      addDriver = result;
       setState(() {
-        buses.add(addBus);
+        drivers.add(addDriver);
       });
     }
   }
-  _esperaDoEditOnibus(BuildContext context, Widget page, int index) async {
-    Bus addBus;
+  // Função que espera a edição do  Motorista
+  _waitingEditDriver(BuildContext context, Widget page, int index) async {
+    Driver addDriver;
     final result = await Navigator.push(
         context,
         MaterialPageRoute(
-          settings: RouteSettings(arguments: buses[index]),
+          settings: RouteSettings(arguments: drivers[index]),
           builder: (context) => page,
-        )) as Bus;
+        )) as Driver;
     if (result != null) {
-      addBus = result;
+      addDriver = result;
       setState(() {
-        buses.removeAt(index);
-        buses.insert(index, addBus);
+        drivers.removeAt(index);
+        drivers.insert(index, addDriver);
       });
     }
   }
@@ -84,31 +83,34 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Container(
           child: ListView.builder(
-              itemCount: buses.length,
+              itemCount: drivers.length,
               padding: const EdgeInsets.symmetric(vertical: 16),
               itemBuilder: (BuildContext context, int index) {
                 return Dismissible(
                   child: ListTile(
                     title: Text(
 
-                      'Placa:\t${buses[index].plate}',
+                      'Nome:\t${drivers[index].name}',
                       style: TextStyle(fontStyle: FontStyle.normal, fontSize: 23, fontWeight: FontWeight.normal, fontFamily: 'PatrickHand'),
                     ),
                     subtitle:
-                        Text('Rota pertencente:\t${buses[index].busNumber}',
-                            style: TextStyle(fontStyle: FontStyle.normal, fontSize: 16, fontWeight: FontWeight.normal, fontFamily: 'PatrickHand'),),
+                    Text('Aniversário:\t' + DateFormat('dd/MM/yyyy').format(drivers[index].birthDate),
+                      style: TextStyle(fontStyle: FontStyle.normal, fontSize: 16, fontWeight: FontWeight.normal, fontFamily: 'PatrickHand'),
+                    ),
+                    isThreeLine: true,
+                    dense: false,
                   ),
-                  background: arrastarParaDireitaBackground(),
-                  secondaryBackground: arrastarParaEsquerdaBackground(),
+                  background: scrollRightBackground(),
+                  secondaryBackground: scrollLeftBackground(),
                   key: UniqueKey(),
                   onDismissed: (DismissDirection direction) {
                     if (direction == DismissDirection.endToStart) {
                       setState(() {
-                        buses.removeAt(index);
+                        drivers.removeAt(index);
                       });
                     } else {
                       setState(() {
-                        _esperaDoEditOnibus(context, CreateBus(),index);
+                        _waitingEditDriver(context, CreateDriver(),index);
                         print('edit não foi feito ainda');
                       });
                     }
@@ -117,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
               })),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blueGrey,
-        onPressed: () => _esperaDoNovoOnibus(context, CreateBus()),
+        onPressed: () => _waitingForNewDriver(context, CreateDriver()),
         child: Icon(Icons.add),
       ),
     );
@@ -125,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 // Arrastar para a direita para Editar o Usuario (Não IMPLEMENTADO - Apenas visual)
-Widget arrastarParaDireitaBackground() {
+Widget scrollRightBackground() {
   return Container(
     color: Colors.green,
     child: Align(
@@ -155,7 +157,7 @@ Widget arrastarParaDireitaBackground() {
 }
 
 // Arrastar para a esquerda para Deletar o Usuario
-Widget arrastarParaEsquerdaBackground() {
+Widget scrollLeftBackground() {
   return Container(
     color: Colors.red,
     child: Align(

@@ -114,7 +114,7 @@ class _MapPageState extends State<MapPage> {
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
         title: Text("Onify",
-          style: TextStyle(fontStyle: FontStyle.normal, fontSize: 37, fontWeight: FontWeight.bold, fontFamily: 'Cinzel'),
+          style: TextStyle(fontStyle: FontStyle.normal, fontSize: 35, fontWeight: FontWeight.bold, fontFamily: 'Cinzel'),
         ),
         centerTitle: true,
       ),
