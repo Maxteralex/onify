@@ -36,12 +36,16 @@ class _RoutePageState extends State<RoutePage> {
           title: Text('Lista de Rotas'),
         ),
         body: Container(
+
             child: ListView.builder(
+
               itemCount: items.length,
+
               padding: const EdgeInsets.symmetric(vertical: 16),
               itemBuilder: (context, index) {
                 return Dismissible(
                   child: ListTile(
+                    trailing: Icon(Icons.arrow_forward_ios),
                     title: Text(
                       'Nome da Rota: ${items[index].routeName}',
                       style: TextStyle(fontStyle: FontStyle.normal, fontSize: 23, fontWeight: FontWeight.normal, fontFamily: 'PatrickHand'),
@@ -50,9 +54,11 @@ class _RoutePageState extends State<RoutePage> {
                       'Número da Rota: ${items[index].routeNumber}',
                       style: TextStyle(fontStyle: FontStyle.normal, fontSize: 16, fontWeight: FontWeight.normal, fontFamily: 'PatrickHand'),
                     ),
+
                     onTap: () {
                       showInfo(items[index]);
                     },
+
                   ),
                   key: UniqueKey(),
                   background: arrastarParaDireitaBackground(),
@@ -76,6 +82,7 @@ class _RoutePageState extends State<RoutePage> {
                 );
               },
             ),
+
         ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blueGrey,

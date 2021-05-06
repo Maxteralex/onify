@@ -89,6 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
               itemBuilder: (BuildContext context, int index) {
                 return Dismissible(
                   child: ListTile(
+                    trailing: Icon(Icons.arrow_forward_ios),
                     title: Text(
 
                       'Placa:\t${buses[index].plate}',

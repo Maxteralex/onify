@@ -63,7 +63,7 @@ class _CreateDriverState extends State<CreateDriver> {
             onPressed: () => Navigator.pop(context),
             child: Text(
               "Cancelar",
-              style: TextStyle(color: Colors.red[700], fontSize: 16),
+              style: TextStyle(color: Colors.white, fontSize: 16),
             ),
           ),
         ),

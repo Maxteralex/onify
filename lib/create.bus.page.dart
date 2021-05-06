@@ -36,18 +36,17 @@ class _CreateBusState extends State<CreateBus> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
+          backgroundColor: Colors.blueGrey,
+          centerTitle: true,
+          textTheme: TextTheme(headline1: TextStyle(fontSize: 54.0, fontWeight: FontWeight.normal, fontFamily: 'Cinzel', decorationColor: Colors.blueGrey),
+            headline6: TextStyle(fontStyle: FontStyle.normal, fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'Cinzel'),),
           title: Text(
             "Adicionar Onibus",
             style: TextStyle(color: Colors.white),
+
           ),
           leadingWidth: 90,
-          leading: TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(
-              "Cancelar",
-              style: TextStyle(color: Colors.red[700], fontSize: 16),
-            ),
-          ),
+
         ),
         body: SingleChildScrollView(child: SafeArea(
           minimum: const EdgeInsets.all(15.0),

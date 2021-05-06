@@ -3,7 +3,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'bus.dart';
 
 class RouteModel extends ChangeNotifier{
-  List<Route> _routes = [];
+  List<Route> _routes = [
+    Route(routeName: 'Lagoa-Barra', routeNumber: 1),
+    Route(routeName: 'Rio-Niteroi', routeNumber: 2),
+    Route(routeName: 'Copacabana-Ipanema', routeNumber: 3),
+    Route(routeName: 'Centro', routeNumber: 4),
+  ];
 
   List<Route> get routes {
     return _routes;
