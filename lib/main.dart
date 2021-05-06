@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 import 'route.page.dart';
 import 'bus.page.dart';
 import 'map.page.dart';
@@ -13,7 +14,7 @@ Widget navigationBar(BuildContext context, int selectedIndex) {
 
   void _onItemTapped(int index) {
     if (selectedIndex != index) {
-      Navigator.pop(context);
+      // Navigator.pop(context);
       switch (index) {
         case 0: Navigator.pushNamed(context, '/'); break;
         case 1: Navigator.pushNamed(context, '/bus'); break;
