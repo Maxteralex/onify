@@ -15,7 +15,6 @@ class _HomeState extends State<BusPage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Trabalho Flutter',
-      theme: ThemeData(primarySwatch: Colors.blueGrey),
       home: MyHomePage(title: 'Lista de Ônibus'),
     );
   }
@@ -55,11 +54,32 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     }
   }
+  _esperaDoEditOnibus(BuildContext context, Widget page, int index) async {
+    Bus addBus;
+    final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          settings: RouteSettings(arguments: buses[index]),
+          builder: (context) => page,
+        )) as Bus;
+    if (result != null) {
+      addBus = result;
+      setState(() {
+        buses.removeAt(index);
+        buses.insert(index, addBus);
+      });
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blueGrey,
+        centerTitle: true,
+        textTheme: TextTheme(headline1: TextStyle(fontSize: 42.0, fontWeight: FontWeight.bold),
+          headline6: TextStyle(fontStyle: FontStyle.normal, fontSize: 37, fontWeight: FontWeight.bold, fontFamily: 'Cinzel'),),
         title: Text(widget.title),
       ),
       body: Container(
@@ -70,10 +90,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 return Dismissible(
                   child: ListTile(
                     title: Text(
+
                       'Placa:\t${buses[index].plate}',
+                      style: TextStyle(fontStyle: FontStyle.normal, fontSize: 23, fontWeight: FontWeight.normal, fontFamily: 'PatrickHand'),
                     ),
                     subtitle:
-                        Text('Rota pertencente:\t${buses[index].busNumber}'),
+                        Text('Rota pertencente:\t${buses[index].busNumber}',
+                            style: TextStyle(fontStyle: FontStyle.normal, fontSize: 16, fontWeight: FontWeight.normal, fontFamily: 'PatrickHand'),),
                   ),
                   background: arrastarParaDireitaBackground(),
                   secondaryBackground: arrastarParaEsquerdaBackground(),
@@ -85,6 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       });
                     } else {
                       setState(() {
+                        _esperaDoEditOnibus(context, CreateBus(),index);
                         print('edit não foi feito ainda');
                       });
                     }
@@ -92,6 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               })),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blueGrey,
         onPressed: () => _esperaDoNovoOnibus(context, CreateBus()),
         child: Icon(Icons.add),
       ),

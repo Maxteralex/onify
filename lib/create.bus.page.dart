@@ -28,9 +28,11 @@ class _CreateBusState extends State<CreateBus> {
     }
   }
 
+
 //Buildar a Segunda tela referente ao cadastro do Novo Usuario
   @override
   Widget build(BuildContext context) {
+    final Bus bus = ModalRoute.of(context).settings.arguments;
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
@@ -57,6 +59,7 @@ class _CreateBusState extends State<CreateBus> {
                   height: 50,
                 ),
                 TextFormField(
+                    initialValue: bus == null ?  null : bus.plate,
                     onSaved: (val) => plate = val,
                     decoration: InputDecoration(
                       labelText: 'Placa',
@@ -72,6 +75,7 @@ class _CreateBusState extends State<CreateBus> {
                       return null;
                     }),
                 TextFormField(
+                   initialValue: bus == null ? null : bus.brand,
                     onSaved: (val) => brand = val,
                     decoration: InputDecoration(
                       labelText: 'Marca',
@@ -87,6 +91,7 @@ class _CreateBusState extends State<CreateBus> {
                       return null;
                     }),
                 TextFormField(
+                    initialValue: bus == null ? null : bus.busNumber.toString(),
                     onSaved: (val) => busNumber = int.parse(val) ,
                     decoration: InputDecoration(
                       labelText: 'Numero da Rota',
