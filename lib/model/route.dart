@@ -29,10 +29,31 @@ class RouteModel extends ChangeNotifier{
 class Route {
   String routeName;
   int routeNumber;
-  Set<Marker> busStops;
-  List<Bus> buses;
+  Set<Marker> busStops = {};
+  List<Bus> buses = [];
 
   Route({this.routeName, this.routeNumber});
+
+  String getRouteName() {
+    return routeName;
+  }
+
+  int getRouteNumber() {
+    return routeNumber;
+  }
+
+  void setRouteName(String routeName) {
+    this.routeName = routeName;
+  }
+
+  void setRouteNumber(int routeNumber) {
+    this.routeNumber = routeNumber;
+  }
+
+  Set<Marker> getBusStops() {
+    print(busStops);
+    return busStops;
+  }
 
   void addBusStop(Marker marker) {
     busStops.add(marker);
