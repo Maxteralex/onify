@@ -11,16 +11,24 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   GoogleMapController mapController;
   Set<Marker> tempMarker = new Set<Marker>();
+  Set<Marker> savedMarkers = new Set<Marker>();
   MarkerId selectedMarkerId;
   // atualmente aponta para Niteroi
   double lat = -22.899153475969282;
   double long = -43.107521571547025;
 
+  void setSavedMarkers(Set<Marker> markers) {
+    /* Resgata os markers guardados e os
+       coloca no set de markers salvos */
+    savedMarkers = markers;
+  }
+
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
 
-  Widget mapWidget(Set<Marker> savedMarkers) {
+  Widget mapWidget() {
+    /* Widget do Google Maps */
     return GoogleMap(
         onMapCreated: _onMapCreated,
         onCameraMove: (data) {
@@ -40,11 +48,12 @@ class _MapPageState extends State<MapPage> {
           target: LatLng(lat, long),
           zoom: 11.0,
         ),
-        markers: tempMarker //savedMarkers.union(tempMarker),
+        markers: savedMarkers.union(tempMarker),
     );
   }
 
   Widget mapButton(Function function, Icon icon, Color color) {
+    /* Generalização de botões para o mapa */
     return ElevatedButton(
         onPressed: function,
         child: icon,
@@ -60,23 +69,27 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     final busStopModel = Provider.of<BusStopModel>(context);
-    var savedMarkers = busStopModel.busStops;
+    setSavedMarkers(busStopModel.busStops);
 
-    Future saveMarker(Set<Marker> savedMarkers) async {
-      final data = await showDialog(
+    Future saveMarker() async {
+      /* Abre uma caixa de diálogo para obter o nome
+         que será dado ao marker e, por fim, salva no
+         Provider de BusStopModel, atualizando o estado
+         da página. */
+      final addData = await showDialog(
           context: context,
           builder: (BuildContext context) {
             return AddMarkerScreen();
           }) as Map<String, String>;
       final tempMarkerId = MarkerId(UniqueKey().toString());
       setState(() {
-        savedMarkers.add(
+        busStopModel.add(
             Marker(
-                markerId: MarkerId(UniqueKey().toString()),
+                markerId: tempMarkerId,
                 position: tempMarker.first.position,
                 infoWindow: InfoWindow(
-                  title: data['markerTitle'],
-                  snippet: data['markerSnippet'],
+                  title: addData['markerTitle'],
+                  snippet: addData['markerSnippet'],
                 ),
                 onTap: () {
                   selectedMarkerId = tempMarkerId;
@@ -87,10 +100,12 @@ class _MapPageState extends State<MapPage> {
       });
     }
 
-    void removeSavedMarker(Set<Marker> savedMarkers) {
+    void removeSavedMarker() {
+      /* Remove o marker selecionado se este estiver
+         salvo, atualizando o estado da página. */
       if (savedMarkers.length > 0) {
         setState(() {
-          savedMarkers.removeWhere((marker) { return marker.markerId == selectedMarkerId; });
+          busStopModel.remove(selectedMarkerId);
         });
       }
     }
@@ -109,7 +124,7 @@ class _MapPageState extends State<MapPage> {
             SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height - 80,
-                child: mapWidget(savedMarkers)
+                child: mapWidget()
             ),
             Align(
               alignment: Alignment.topRight,

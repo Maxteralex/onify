@@ -23,6 +23,7 @@ class RouteModel extends ChangeNotifier{
     _routes.clear();
     notifyListeners();
   }
+
 }
 
 class Route {
