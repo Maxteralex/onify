@@ -3,6 +3,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'bus.page.dart';
+import 'generated/l10n.dart';
 import 'model/bus.dart';
 
 
@@ -12,6 +15,7 @@ class CreateBus extends StatefulWidget {
 }
 
 class _CreateBusState extends State<CreateBus> {
+
   final _formKey = GlobalKey<FormState>();
   String plate;
   String brand;
@@ -41,12 +45,11 @@ class _CreateBusState extends State<CreateBus> {
           textTheme: TextTheme(headline1: TextStyle(fontSize: 54.0, fontWeight: FontWeight.normal, fontFamily: 'Cinzel', decorationColor: Colors.blueGrey),
             headline6: TextStyle(fontStyle: FontStyle.normal, fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'Cinzel'),),
           title: Text(
-            "Adicionar Onibus",
+            bus == null? S.of(context).createBus: S.of(context).editBus,
             style: TextStyle(color: Colors.white),
 
           ),
           leadingWidth: 90,
-
         ),
         body: SingleChildScrollView(child: SafeArea(
           minimum: const EdgeInsets.all(15.0),
@@ -61,7 +64,7 @@ class _CreateBusState extends State<CreateBus> {
                     initialValue: bus == null ?  null : bus.plate,
                     onSaved: (val) => plate = val,
                     decoration: InputDecoration(
-                      labelText: 'Placa',
+                      labelText: S.of(context).plate,
                       icon: Icon(
                         Icons.map,
                         color: Colors.black,
@@ -70,14 +73,14 @@ class _CreateBusState extends State<CreateBus> {
                       ),
                     ),
                     validator: (value) {
-                      if (value.isEmpty) return "Por favor insira sua placa!";
+                      if (value.isEmpty) return S.of(context).plateNull;
                       return null;
                     }),
                 TextFormField(
                    initialValue: bus == null ? null : bus.brand,
                     onSaved: (val) => brand = val,
                     decoration: InputDecoration(
-                      labelText: 'Marca',
+                      labelText: S.of(context).brand,
                       icon: Icon(
                         Icons.branding_watermark,
                         color: Colors.black,
@@ -86,19 +89,19 @@ class _CreateBusState extends State<CreateBus> {
                       ),
                     ),
                     validator: (value) {
-                      if (value.isEmpty) return "Por favor insira a marca do veículo!";
+                      if (value.isEmpty) return S.of(context).branchNull;
                       return null;
                     }),
                 TextFormField(
                     initialValue: bus == null ? null : bus.busNumber.toString(),
                     onSaved: (val) => busNumber = int.parse(val) ,
                     decoration: InputDecoration(
-                      labelText: 'Numero da Rota',
+                      labelText: S.of(context).routeNumber,
                       icon: Icon(
                         Icons.branding_watermark,
                         color: Colors.black,
                         size: 24.0,
-                        semanticLabel: 'Qual a rota do ônibus',
+                        semanticLabel: S.of(context).routeNull,
                       ),
                     ),
                     keyboardType: TextInputType.number,
@@ -106,7 +109,7 @@ class _CreateBusState extends State<CreateBus> {
                       FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                     ],
                     validator: (value) {
-                      if (value.isEmpty) return "Por favor insira a rota do veículo!";
+                      if (value.isEmpty) return S.of(context).routeNull;
                       return null;
                     }),
                 Container(
@@ -115,7 +118,7 @@ class _CreateBusState extends State<CreateBus> {
                 Center(
                   child: ElevatedButton.icon(
                     onPressed: _salvarForm,
-                    label: Text('Confirmar'),
+                    label: Text(S.of(context).confirm),
                     icon: Icon(Icons.check),
                   ),
                 )

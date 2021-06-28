@@ -1,6 +1,10 @@
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'create.bus.page.dart';
+import 'generated/l10n.dart';
 import 'model/bus.dart';
 import 'package:provider/provider.dart';
 
@@ -14,8 +18,15 @@ class _HomeState extends State<BusPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Bus',
-      home: MyHomePage(title: 'Lista de Ônibus'),
+      title: 'Bus' ,
+      supportedLocales: S.delegate.supportedLocales,
+      localizationsDelegates: [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ] ,
+      home: MyHomePage(title: "Ônibus"),
     );
   }
 }
@@ -80,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
         textTheme: TextTheme(headline1: TextStyle(fontSize: 42.0, fontWeight: FontWeight.bold),
           headline6: TextStyle(fontStyle: FontStyle.normal, fontSize: 35, fontWeight: FontWeight.bold, fontFamily: 'Cinzel'),),
-        title: Text(widget.title),
+        title: Text(S.of(context).busTitle),
       ),
       body: Container(
           child: ListView.builder(
@@ -92,15 +103,15 @@ class _MyHomePageState extends State<MyHomePage> {
                     trailing: Icon(Icons.arrow_forward_ios),
                     title: Text(
 
-                      'Placa:\t${buses[index].plate}',
+                        '${S.of(context).plate}:\t${buses[index].plate}',
                       style: TextStyle(fontStyle: FontStyle.normal, fontSize: 23, fontWeight: FontWeight.normal, fontFamily: 'PatrickHand'),
                     ),
                     subtitle:
-                        Text('Rota pertencente:\t${buses[index].busNumber}',
+                        Text('${S.of(context).routeBelongs}:\t${buses[index].busNumber}',
                             style: TextStyle(fontStyle: FontStyle.normal, fontSize: 16, fontWeight: FontWeight.normal, fontFamily: 'PatrickHand'),),
                   ),
-                  background: arrastarParaDireitaBackground(),
-                  secondaryBackground: arrastarParaEsquerdaBackground(),
+                  background: arrastarParaDireitaBackground(context),
+                  secondaryBackground: arrastarParaEsquerdaBackground(context),
                   key: UniqueKey(),
                   onDismissed: (DismissDirection direction) {
                     if (direction == DismissDirection.endToStart) {
@@ -110,7 +121,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     } else {
                       setState(() {
                         _esperaDoEditOnibus(context, CreateBus(),index);
-                        print('edit não foi feito ainda');
                       });
                     }
                   },
@@ -125,8 +135,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-// Arrastar para a direita para Editar o Usuario (Não IMPLEMENTADO - Apenas visual)
-Widget arrastarParaDireitaBackground() {
+// Arrastar para a direita para Editar o Usuario
+Widget arrastarParaDireitaBackground(BuildContext context) {
   return Container(
     color: Colors.green,
     child: Align(
@@ -141,7 +151,7 @@ Widget arrastarParaDireitaBackground() {
             color: Colors.white,
           ),
           Text(
-            " Editar",
+            S.of(context).edit,
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w700,
@@ -156,7 +166,7 @@ Widget arrastarParaDireitaBackground() {
 }
 
 // Arrastar para a esquerda para Deletar o Usuario
-Widget arrastarParaEsquerdaBackground() {
+Widget arrastarParaEsquerdaBackground(BuildContext context) {
   return Container(
     color: Colors.red,
     child: Align(
@@ -168,7 +178,7 @@ Widget arrastarParaEsquerdaBackground() {
             color: Colors.white,
           ),
           Text(
-            " Deletar",
+            S.of(context).remove,
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w700,

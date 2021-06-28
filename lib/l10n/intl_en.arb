@@ -1,0 +1,42 @@
+{
+  "busTitle":"Bus List",
+  "plate":"Plate",
+  "routeBelongs": "the bus belongs to the route",
+  "edit": "Edit",
+  "remove": "Remove",
+  "routeNumber": "Route Number",
+  "brand": "Brand",
+  "createBus": "Create Bus",
+  "editBus": "Edit Bus",
+  "plateNull": "Please add your plate!",
+  "branchNull": "Please add your vehicle branch!",
+  "routeNull": "Please add your vehicle route!",
+  "confirm": "Confirm",
+
+  "cancel": "Cancel",
+  "driverTitle": "Driver's List",
+  "name": "Name:",
+  "birthDate": "Birth Date:",
+  "cpf": "CPF",
+  "civilStatus": "Civil Status",
+  "gender": "Gender",
+  "driverLicense": "Driver's license",
+  "addDriver": "Add Driver",
+  "editDriver": "Edit Driver",
+  "nameNull": "Please enter the driver's name!" ,
+  "birthNull":"Please enter date of birth!" ,
+  "cpfNull":"Please enter the cpf!" ,
+  "licenseNull":"Please enter marital status!" ,
+  "civilNull":"Please insert your driver's license!" ,
+  "genderNull":"Please enter the gender!",
+
+  "routeName": "Route Name:",
+  "routeTitle": "Route List"
+
+
+
+
+
+
+
+}

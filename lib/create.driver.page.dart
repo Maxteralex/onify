@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'generated/l10n.dart';
 import 'model/driver.dart';
 
 
@@ -55,14 +56,14 @@ class _CreateDriverState extends State<CreateDriver> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text(
-            "Adicionar Motorista",
+            driver == null? S.of(context).addDriver: S.of(context).editDriver,
             style: TextStyle(color: Colors.white),
           ),
           leadingWidth: 90,
           leading: TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
-              "Cancelar",
+              "${S.of(context).cancel}",
               style: TextStyle(color: Colors.white, fontSize: 16),
             ),
           ),
@@ -80,7 +81,7 @@ class _CreateDriverState extends State<CreateDriver> {
                     initialValue: driver == null ?  null : driver.name,
                     onSaved: (val) => name = val,
                     decoration: InputDecoration(
-                      labelText: 'Nome do Motorista',
+                      labelText: '${S.of(context).name}',
                       icon: Icon(
                         Icons.person_add,
                         color: Colors.black,
@@ -89,7 +90,7 @@ class _CreateDriverState extends State<CreateDriver> {
                     ),
                     keyboardType: TextInputType.text,
                     validator: (value) {
-                      if (value.isEmpty) return "Por favor o nome do motorista!";
+                      if (value.isEmpty) return "${S.of(context).nameNull}";
                       return null;
                     }),
                 GestureDetector(
@@ -102,7 +103,7 @@ class _CreateDriverState extends State<CreateDriver> {
                       controller: _dataNewDriver,
                       keyboardType: TextInputType.datetime,
                       decoration: InputDecoration(
-                        labelText: "BirthDate",
+                        labelText: "${S.of(context).birthDate}",
                         icon: Icon(
                           Icons.celebration,
                           color: Colors.black,
@@ -111,7 +112,7 @@ class _CreateDriverState extends State<CreateDriver> {
                       ),
                       validator: (value) {
                         if (value.isEmpty)
-                          return "Por favor insira sua data de Nascimento!";
+                          return "${S.of(context).birthNull}";
                         return null;
                       },
                     ),
@@ -124,7 +125,7 @@ class _CreateDriverState extends State<CreateDriver> {
                       initialValue: driver == null ? null : driver.cpf,
                       onSaved: (val) => cpf = val,
                       decoration: InputDecoration(
-                        labelText: 'CPF',
+                        labelText: '${S.of(context).cpf}',
                         icon: Icon(
                           Icons.assignment_turned_in,
                           color: Colors.black,
@@ -136,14 +137,14 @@ class _CreateDriverState extends State<CreateDriver> {
                         FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                       ],
                       validator: (value) {
-                        if (value.isEmpty || value.length != 11) return " Seu CPF com 11 dígitos!";
+                        if (value.isEmpty || value.length != 11) return "${S.of(context).cpf}";
                         return null;
                       }),),
                     Expanded(child: TextFormField(
                         initialValue: driver == null ? null : driver.driversLicenseType,
                         onSaved: (val) => driversLicenseType = val ,
                         decoration: InputDecoration(
-                          labelText: 'Carteira de Motorista',
+                          labelText: '${S.of(context).driverLicense}',
                           icon: Icon(
                             Icons.account_balance_wallet,
                             color: Colors.black,
@@ -155,7 +156,7 @@ class _CreateDriverState extends State<CreateDriver> {
                           FilteringTextInputFormatter.allow(RegExp(r'^[A-F]$')),
                         ],
                         validator: (value) {
-                          if (value.length != 1) return "Sua carteira ex: 'A','D'...";
+                          if (value.length != 1) return "${S.of(context).licenseNull}";
                           return null;
                         }),),
                   ],
@@ -166,7 +167,7 @@ class _CreateDriverState extends State<CreateDriver> {
                       initialValue: driver == null ? null : driver.civilState,
                       onSaved: (val) => civilState = val,
                       decoration: InputDecoration(
-                        labelText: 'Estado civil',
+                        labelText: '${S.of(context).civilStatus}',
                         icon: Icon(
                           Icons.supervisor_account_sharp,
                           color: Colors.black,
@@ -175,14 +176,14 @@ class _CreateDriverState extends State<CreateDriver> {
                       ),
                       keyboardType: TextInputType.text,
                       validator: (value) {
-                        if (value.isEmpty) return "Seu estado civil!";
+                        if (value.isEmpty) return "${S.of(context).civilNull}";
                         return null;
                       }),),
                     Expanded(child: TextFormField(
                         initialValue: driver == null ? null : driver.sex,
                         onSaved: (val) => civilState = val,
                         decoration: InputDecoration(
-                          labelText: 'Gênero',
+                          labelText: '${S.of(context).gender}',
                           icon: Icon(
                             Icons.add_circle_outline_outlined,
                             color: Colors.black,
@@ -194,7 +195,7 @@ class _CreateDriverState extends State<CreateDriver> {
                           FilteringTextInputFormatter.allow(RegExp(r'^[MFO]$')),
                         ],
                         validator: (value) {
-                          if (value.isEmpty) return "Seu genero. Ex: 'M' ou 'F'!";
+                          if (value.isEmpty) return "${S.of(context).genderNull}";
                           return null;
                         }),),
                   ],
@@ -205,7 +206,7 @@ class _CreateDriverState extends State<CreateDriver> {
                 Center(
                   child: ElevatedButton.icon(
                     onPressed: _salvarForm,
-                    label: Text('Confirmar'),
+                    label: Text('${S.of(context).confirm}'),
                     icon: Icon(Icons.check),
                   ),
                 )

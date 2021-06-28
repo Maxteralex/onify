@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'model/bus.stop.dart';
+import 'package:geolocator/geolocator.dart';
+
+
 
 class MapPage extends StatefulWidget {
   @override
@@ -17,10 +20,20 @@ class _MapPageState extends State<MapPage> {
   double lat = -22.899153475969282;
   double long = -43.107521571547025;
 
+
   void setSavedMarkers(Set<Marker> markers) {
     /* Resgata os markers guardados e os
        coloca no set de markers salvos */
     savedMarkers = markers;
+  }
+
+  void _getCurrentLocation() async{
+
+    final position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    print(position);
+    position != null ? lat = position.latitude : lat = -22.899153475969282;
+    position != null ? long = position.longitude : long = -43.107521571547025;
+    mapWidget();
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -46,9 +59,9 @@ class _MapPageState extends State<MapPage> {
         },
         initialCameraPosition: CameraPosition(
           target: LatLng(lat, long),
-          zoom: 11.0,
+          zoom: lat != -22.899153475969282 ? 14.0 : 11.0 ,
         ),
-        markers: savedMarkers.union(tempMarker),
+      markers: savedMarkers.union(tempMarker),
     );
   }
 
@@ -134,6 +147,7 @@ class _MapPageState extends State<MapPage> {
                     children: [
                       mapButton(saveMarker, Icon(Icons.add_location), Colors.green),
                       mapButton(removeSavedMarker, Icon(Icons.wrong_location), Colors.red),
+                      mapButton(_getCurrentLocation, Icon(Icons.gps_fixed), Colors.black)
                     ],
                   )),
             )

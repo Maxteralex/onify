@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'create.driver.page.dart';
 import 'package:intl/intl.dart';
 
+import 'generated/l10n.dart';
 import 'model/driver.dart';
 
 class DriverPage extends StatefulWidget {
@@ -16,6 +18,13 @@ class _HomeState extends State<DriverPage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Driver',
+        supportedLocales: S.delegate.supportedLocales,
+        localizationsDelegates: [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
       home: MyHomePage(title: 'Lista de Motoristas'),
     );
   }
@@ -79,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
         textTheme: TextTheme(headline1: TextStyle(fontSize: 42.0, fontWeight: FontWeight.bold),
           headline6: TextStyle(fontStyle: FontStyle.normal, fontSize: 35, fontWeight: FontWeight.bold, fontFamily: 'Cinzel'),),
-        title: Text(widget.title),
+        title: Text(S.of(context).driverTitle),
       ),
       body: Container(
           child: ListView.builder(
@@ -91,11 +100,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     trailing: Icon(Icons.arrow_forward_ios),
                     title: Text(
 
-                      'Nome:\t${drivers[index].name}',
+                      '${S.of(context).name}\t${drivers[index].name}',
                       style: TextStyle(fontStyle: FontStyle.normal, fontSize: 23, fontWeight: FontWeight.normal, fontFamily: 'PatrickHand'),
                     ),
                     subtitle:
-                    Text('Aniversário:\t' + DateFormat('dd/MM/yyyy').format(drivers[index].birthDate),
+                    Text('${S.of(context).birthDate}\t' + DateFormat('dd/MM/yyyy').format(drivers[index].birthDate),
                       style: TextStyle(fontStyle: FontStyle.normal, fontSize: 16, fontWeight: FontWeight.normal, fontFamily: 'PatrickHand'),
                     ),
                     isThreeLine: true,
@@ -112,7 +121,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     } else {
                       setState(() {
                         _waitingEditDriver(context, CreateDriver(),index);
-                        print('edit não foi feito ainda');
                       });
                     }
                   },
@@ -127,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-// Arrastar para a direita para Editar o Usuario (Não IMPLEMENTADO - Apenas visual)
+// Arrastar para a direita para Editar o Usuario
 Widget scrollRightBackground() {
   return Container(
     color: Colors.green,
