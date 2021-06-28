@@ -181,7 +181,7 @@ class _CreateDriverState extends State<CreateDriver> {
                       }),),
                     Expanded(child: TextFormField(
                         initialValue: driver == null ? null : driver.sex,
-                        onSaved: (val) => civilState = val,
+                        onSaved: (val) => sex = val,
                         decoration: InputDecoration(
                           labelText: '${S.of(context).gender}',
                           icon: Icon(

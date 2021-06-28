@@ -14,7 +14,6 @@ class DriverModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  /// Removes all items from the cart.
   void removeAll() {
     _drivers.clear();
     // This call tells the widgets that are listening to this model to rebuild.
