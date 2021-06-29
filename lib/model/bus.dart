@@ -31,4 +31,27 @@ class Bus {
   int busNumber;
 
   Bus({this.brand, this.plate, this.busNumber});
+
+  Map <String, dynamic> toDatabaseJson() => {
+    "brand": this.brand,
+    "plate": this.plate,
+    "bus_number": this.busNumber,
+  };
+
+  factory Bus.fromJson(Map<String, dynamic> json) {
+    return Bus(
+      brand: json['brand'],
+      plate: json['plate'],
+      busNumber: json['bus_number'],
+    );
+  }
+
+  // factory Bus.multipleFromJson(Map<String, dynamic> json) {
+  //   List<Bus> buses
+  //   return Bus(
+  //     brand: json['brand'],
+  //     plate: json['plate'],
+  //     busNumber: json['bus_number'],
+  //   );
+  // }
 }

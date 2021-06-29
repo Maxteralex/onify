@@ -54,7 +54,6 @@ class _RoutePageState extends State<RoutePage> {
                       'Número da Rota: ${items[index].routeNumber}',
                       style: TextStyle(fontStyle: FontStyle.normal, fontSize: 16, fontWeight: FontWeight.normal, fontFamily: 'PatrickHand'),
                     ),
-
                     onTap: () {
                       showInfo(items[index]);
                     },
@@ -63,21 +62,24 @@ class _RoutePageState extends State<RoutePage> {
                   key: UniqueKey(),
                   background: arrastarParaDireitaBackground(),
                   secondaryBackground: arrastarParaEsquerdaBackground(),
-                  onDismissed: (DismissDirection direction) {
+                  confirmDismiss: (direction) async {
                     if (direction == DismissDirection.endToStart) {
                       setState(() {
                         routeModel.removeAt(index);
                       });
-                    } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AddEditRouteScreen(
-                                route: items[index]
-                              )
-                          )
-                      );
+                      /// delete
+                      return true;
                     }
+                    // edit
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AddEditRouteScreen(
+                                route: items[index]
+                            )
+                        )
+                    );
+                    return false;
                   },
                 );
               },
@@ -254,8 +256,7 @@ class _AddEditRouteState extends State<AddEditRouteScreen> {
         if (route == null) {
           routeModel.add(routeName, routeNumber);
         } else {
-          route.setRouteName(routeName);
-          route.setRouteNumber(routeNumber);
+          route.updateRouteAttrs(routeName, routeNumber);
         }
         Navigator.pop(context);
       }

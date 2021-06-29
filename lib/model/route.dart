@@ -1,26 +1,49 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:onify_app/api_connection/route_connection.dart';
 import 'bus.dart';
 
 class RouteModel extends ChangeNotifier{
-  List<Route> _routes = [
-    Route(routeName: 'Lagoa-Barra', routeNumber: 1),
-    Route(routeName: 'Rio-Niteroi', routeNumber: 2),
-    Route(routeName: 'Copacabana-Ipanema', routeNumber: 3),
-    Route(routeName: 'Centro', routeNumber: 4),
-  ];
+  List<Route> _routes = [];
+  // [
+  //   Route(routeName: 'Lagoa-Barra', routeNumber: 1),
+  //   Route(routeName: 'Rio-Niteroi', routeNumber: 2),
+  //   Route(routeName: 'Copacabana-Ipanema', routeNumber: 3),
+  //   Route(routeName: 'Centro', routeNumber: 4),
+  // ];
+
+  void prepareList() async {
+    _routes = await getRoutes();
+  }
 
   List<Route> get routes {
+    prepareList();
     return _routes;
   }
 
-  void add(String routeName, int routeNumber) {
-    _routes.add(new Route(routeName: routeName, routeNumber: routeNumber));
+  void add(String routeName, int routeNumber) async {
+    Map<String, dynamic> routeJson = {
+      'name': routeName,
+      'route_number': routeNumber
+    };
+    try {
+      Route route = await createRoute(routeJson);
+      _routes.add(route);
+    } catch(except, trace) {
+      print(trace.toString());
+    }
     notifyListeners();
   }
 
-  void removeAt(int index) {
-    _routes.removeAt(index);
+  void removeAt(int index) async{
+    Route route = _routes.elementAt(index);
+    try {
+      await deleteRoute(route);
+      _routes.removeAt(index);
+    } catch (except, trace) {
+      print(trace.toString());
+    }
     notifyListeners();
   }
 
@@ -34,10 +57,11 @@ class RouteModel extends ChangeNotifier{
 class Route {
   String routeName;
   int routeNumber;
+  int routeId;
   Set<Marker> busStops = {};
   List<Bus> buses = [];
 
-  Route({this.routeName, this.routeNumber});
+  Route({this.routeName, this.routeNumber, this.routeId});
 
   String getRouteName() {
     return routeName;
@@ -45,6 +69,22 @@ class Route {
 
   int getRouteNumber() {
     return routeNumber;
+  }
+
+  int getRouteId() {
+    return routeId;
+  }
+
+  void updateRouteAttrs(String routeName, int routeNumber) {
+    try {
+      Map<String, dynamic> routeJson = {
+        'name': routeName,
+        'route_number': routeNumber
+      };
+      updateRoute(this, routeJson);
+    } catch(exception, trace) {
+      print(trace.toString());
+    }
   }
 
   void setRouteName(String routeName) {
@@ -71,4 +111,18 @@ class Route {
   void removeBusStop(Marker marker) {
     busStops.remove(marker);
   }
+
+  factory Route.fromJson(Map<String, dynamic> json) {
+    return Route(
+        routeName: json['name'],
+        routeNumber: json['route_number'],
+        routeId: json['route_id']
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    "name": this.routeName,
+    "route_number": this.routeNumber,
+  };
+
 }
