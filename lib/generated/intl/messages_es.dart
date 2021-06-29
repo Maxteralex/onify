@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "birthNull" : MessageLookupByLibrary.simpleMessage("¡Ingrese la fecha de nacimiento!"),
     "branchNull" : MessageLookupByLibrary.simpleMessage("¡Por favor, agregue la marca del vehículo!"),
     "brand" : MessageLookupByLibrary.simpleMessage("Marca"),
+    "busTitle" : MessageLookupByLibrary.simpleMessage("Lista de bus"),
     "civilNull" : MessageLookupByLibrary.simpleMessage("¡Introduzca su licencia de conducir!"),
     "civilStatus" : MessageLookupByLibrary.simpleMessage("Estado civil"),
     "confirm" : MessageLookupByLibrary.simpleMessage("Confirmar"),
@@ -46,8 +47,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "plateNull" : MessageLookupByLibrary.simpleMessage("¡Por favor agregue su placa de auto!"),
     "remove" : MessageLookupByLibrary.simpleMessage("Eliminar"),
     "routeBelongs" : MessageLookupByLibrary.simpleMessage("El autobús pertenece a la Ruta:"),
-    "routeName" : MessageLookupByLibrary.simpleMessage("Route Name:"),
+    "routeName" : MessageLookupByLibrary.simpleMessage("Nombre de ruta:"),
     "routeNull" : MessageLookupByLibrary.simpleMessage("¡Por favor, agregue la ruta de su vehículo!"),
+    "routeNumber" : MessageLookupByLibrary.simpleMessage("Número de ruta"),
     "routeTitle" : MessageLookupByLibrary.simpleMessage("Route List")
   };
 }

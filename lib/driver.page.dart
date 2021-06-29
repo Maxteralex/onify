@@ -110,8 +110,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     isThreeLine: true,
                     dense: false,
                   ),
-                  background: scrollRightBackground(),
-                  secondaryBackground: scrollLeftBackground(),
+                  background: scrollRightBackground(context),
+                  secondaryBackground: scrollLeftBackground(context),
                   key: UniqueKey(),
                   onDismissed: (DismissDirection direction) {
                     if (direction == DismissDirection.endToStart) {
@@ -136,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 // Arrastar para a direita para Editar o Usuario
-Widget scrollRightBackground() {
+Widget scrollRightBackground(BuildContext context) {
   return Container(
     color: Colors.green,
     child: Align(
@@ -151,7 +151,7 @@ Widget scrollRightBackground() {
             color: Colors.white,
           ),
           Text(
-            " Editar",
+            S.of(context).edit,
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w700,
@@ -166,7 +166,7 @@ Widget scrollRightBackground() {
 }
 
 // Arrastar para a esquerda para Deletar o Usuario
-Widget scrollLeftBackground() {
+Widget scrollLeftBackground(BuildContext context) {
   return Container(
     color: Colors.red,
     child: Align(
@@ -178,7 +178,7 @@ Widget scrollLeftBackground() {
             color: Colors.white,
           ),
           Text(
-            " Deletar",
+            S.of(context).cancel,
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w700,

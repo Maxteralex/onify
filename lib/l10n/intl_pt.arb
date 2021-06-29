@@ -1,10 +1,10 @@
 {
-  "title":"Lista de Ônibus",
+  "busTitle":"Lista de Ônibus",
   "plate":"Placa:",
   "routeBelongs": "O ônibus pertence a rota:",
   "edit": "Editar",
   "remove": "Remover",
-  "routeName": "Numero de rota",
+  "routeNumber": "Numero de rota",
   "brand": "Marca",
   "createBus": "Adicionar Ônibus",
   "editBus": "Editar Ônibus",

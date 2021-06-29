@@ -344,6 +344,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Bus Created successfuly!`
+  String get busCreatedNotif {
+    return Intl.message(
+      'Bus Created successfuly!',
+      name: 'busCreatedNotif',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `bus edited successfully!`
+  String get busEditedNotif {
+    return Intl.message(
+      'bus edited successfully!',
+      name: 'busEditedNotif',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

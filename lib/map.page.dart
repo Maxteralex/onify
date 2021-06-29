@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'model/bus.stop.dart';
@@ -19,7 +20,25 @@ class _MapPageState extends State<MapPage> {
   // atualmente aponta para Niteroi
   double lat = -22.899153475969282;
   double long = -43.107521571547025;
+  FlutterLocalNotificationsPlugin localNotification;
 
+  @override void initState() {
+    // TODO: implement initState
+    super.initState();
+    var androidInitialize = new AndroidInitializationSettings('ic_launcher');
+    var iOSInitialize = new IOSInitializationSettings();
+    var initializationSettings = new InitializationSettings(android: androidInitialize, iOS: iOSInitialize);
+    localNotification = new FlutterLocalNotificationsPlugin();
+    localNotification.initialize(initializationSettings);
+  }
+
+  Future _showNotifications() async {
+    var androidDetails = new AndroidNotificationDetails("channelId", "Local Notification", "With localization ON, we can ", importance: Importance.high);
+    var iosDetails = new IOSNotificationDetails();
+    var generalNotifications = new NotificationDetails(android: androidDetails, iOS: iosDetails);
+    await localNotification.show(0, 'User location captured', "With localization ON, we can give u a better experiance.", generalNotifications);
+
+  }
 
   void setSavedMarkers(Set<Marker> markers) {
     /* Resgata os markers guardados e os
@@ -34,6 +53,7 @@ class _MapPageState extends State<MapPage> {
     position != null ? lat = position.latitude : lat = -22.899153475969282;
     position != null ? long = position.longitude : long = -43.107521571547025;
     mapWidget();
+    _showNotifications();
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -148,6 +168,7 @@ class _MapPageState extends State<MapPage> {
                       mapButton(saveMarker, Icon(Icons.add_location), Colors.green),
                       mapButton(removeSavedMarker, Icon(Icons.wrong_location), Colors.red),
                       mapButton(_getCurrentLocation, Icon(Icons.gps_fixed), Colors.black)
+
                     ],
                   )),
             )

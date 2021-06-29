@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'bus.page.dart';
 import 'generated/l10n.dart';
@@ -21,10 +22,31 @@ class _CreateBusState extends State<CreateBus> {
   String brand;
   int busNumber;
   final busNumerController = TextEditingController();
+  FlutterLocalNotificationsPlugin localNotification;
   //Validação e Salvamento na lista
+
+  @override void initState() {
+    // TODO: implement initState
+    super.initState();
+    var androidInitialize = new AndroidInitializationSettings('ic_launcher');
+    var iOSInitialize = new IOSInitializationSettings();
+    var initializationSettings = new InitializationSettings(android: androidInitialize, iOS: iOSInitialize);
+    localNotification = new FlutterLocalNotificationsPlugin();
+    localNotification.initialize(initializationSettings);
+  }
+
+  Future _showNotifications() async {
+    var androidDetails = new AndroidNotificationDetails("channelId", "Local Notification", "With localization ON, we can ", importance: Importance.high);
+    var iosDetails = new IOSNotificationDetails();
+    var generalNotifications = new NotificationDetails(android: androidDetails, iOS: iosDetails);
+    await localNotification.show(0, "Bus created successfully!", "Bus added to your database!", generalNotifications);
+
+  }
+
   void _salvarForm() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
+      _showNotifications();
       Navigator.pop(
         context,
         Bus(plate: plate, brand: brand, busNumber: busNumber),

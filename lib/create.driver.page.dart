@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'generated/l10n.dart';
 import 'model/driver.dart';
 
@@ -23,9 +24,28 @@ class _CreateDriverState extends State<CreateDriver> {
   DateTime dtSelected = DateTime.now();
 
   //Validação e Salvamento na lista
+  FlutterLocalNotificationsPlugin localNotification;
+  @override void initState() {
+    // TODO: implement initState
+    super.initState();
+    var androidInitialize = new AndroidInitializationSettings('ic_launcher');
+    var iOSInitialize = new IOSInitializationSettings();
+    var initializationSettings = new InitializationSettings(android: androidInitialize, iOS: iOSInitialize);
+    localNotification = new FlutterLocalNotificationsPlugin();
+    localNotification.initialize(initializationSettings);
+  }
+
+  Future _showNotifications() async {
+    var androidDetails = new AndroidNotificationDetails("channelId", "Local Notification", "With localization ON, we can ", importance: Importance.high);
+    var iosDetails = new IOSNotificationDetails();
+    var generalNotifications = new NotificationDetails(android: androidDetails, iOS: iosDetails);
+    await localNotification.show(0, 'Driver created successfully!', "Driver added to database!", generalNotifications);
+
+  }
   void _salvarForm() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
+      _showNotifications();
       Navigator.pop(
         context,
         Driver(name: name, birthDate: dtSelected, cpf: cpf, driversLicenseType: driversLicenseType, civilState: civilState, sex: sex ),

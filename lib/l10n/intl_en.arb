@@ -31,12 +31,8 @@
   "genderNull":"Please enter the gender!",
 
   "routeName": "Route Name:",
-  "routeTitle": "Route List"
+  "routeTitle": "Route List",
 
-
-
-
-
-
-
+  "busCreatedNotif": "Bus Created successfuly!",
+  "busEditedNotif": "bus edited successfully!"
 }
