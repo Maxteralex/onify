@@ -37,51 +37,62 @@ class _RoutePageState extends State<RoutePage> {
         ),
         body: Container(
 
-            child: ListView.builder(
+            child: FutureBuilder(
+              future: routeModel.routes,
+              builder: (context, routes){
+                if (routes.hasData){
+                  print(routes);
+                  return ListView.builder(
 
-              itemCount: items.length,
+                    itemCount: routes.data.length,
 
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              itemBuilder: (context, index) {
-                return Dismissible(
-                  child: ListTile(
-                    trailing: Icon(Icons.arrow_forward_ios),
-                    title: Text(
-                      'Nome da Rota: ${items[index].routeName}',
-                      style: TextStyle(fontStyle: FontStyle.normal, fontSize: 23, fontWeight: FontWeight.normal, fontFamily: 'PatrickHand'),
-                    ),
-                    subtitle: Text(
-                      'Número da Rota: ${items[index].routeNumber}',
-                      style: TextStyle(fontStyle: FontStyle.normal, fontSize: 16, fontWeight: FontWeight.normal, fontFamily: 'PatrickHand'),
-                    ),
-                    onTap: () {
-                      showInfo(items[index]);
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    itemBuilder: (context, index) {
+                      return Dismissible(
+                        child: ListTile(
+                          trailing: Icon(Icons.arrow_forward_ios),
+                          title: Text(
+                            'Nome da Rota: ${routes.data[index].routeName}',
+                            style: TextStyle(fontStyle: FontStyle.normal, fontSize: 23, fontWeight: FontWeight.normal, fontFamily: 'PatrickHand'),
+                          ),
+                          subtitle: Text(
+                            'Número da Rota: ${routes.data[index].routeNumber}',
+                            style: TextStyle(fontStyle: FontStyle.normal, fontSize: 16, fontWeight: FontWeight.normal, fontFamily: 'PatrickHand'),
+                          ),
+                          onTap: () {
+                            showInfo(routes.data[index]);
+                          },
+
+                        ),
+                        key: UniqueKey(),
+                        background: arrastarParaDireitaBackground(),
+                        secondaryBackground: arrastarParaEsquerdaBackground(),
+                        confirmDismiss: (direction) async {
+                          if (direction == DismissDirection.endToStart) {
+                            setState(() {
+                              routeModel.removeAt(index);
+                            });
+                            /// delete
+                            return true;
+                          }
+                          // edit
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AddEditRouteScreen(
+                                      route: routes.data[index]
+                                  )
+                              )
+                          );
+                          return false;
+                        },
+                      );
                     },
+                  );
+                } else{
+                  return Container();
+                }
 
-                  ),
-                  key: UniqueKey(),
-                  background: arrastarParaDireitaBackground(),
-                  secondaryBackground: arrastarParaEsquerdaBackground(),
-                  confirmDismiss: (direction) async {
-                    if (direction == DismissDirection.endToStart) {
-                      setState(() {
-                        routeModel.removeAt(index);
-                      });
-                      /// delete
-                      return true;
-                    }
-                    // edit
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AddEditRouteScreen(
-                                route: items[index]
-                            )
-                        )
-                    );
-                    return false;
-                  },
-                );
               },
             ),
 
@@ -94,9 +105,9 @@ class _RoutePageState extends State<RoutePage> {
               return AddEditRouteScreen();
             },
           ));
-          setState(() {
-            items = routeModel.routes;
-          });
+          //setState(() {
+            //items = routeModel.routes;
+         // });
         },
         child: Icon(Icons.add),
       ),

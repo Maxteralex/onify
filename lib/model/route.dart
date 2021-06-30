@@ -13,13 +13,17 @@ class RouteModel extends ChangeNotifier{
   //   Route(routeName: 'Centro', routeNumber: 4),
   // ];
 
-  void prepareList() async {
+  Future<void> prepareList() async {
     _routes = await getRoutes();
   }
 
-  List<Route> get routes {
-    prepareList();
+  Future <List<Route>> get routes async {
+    await prepareList();
     return _routes;
+  }
+
+  Future<List> getRoutes1() async {
+    return await getRoutes();
   }
 
   void add(String routeName, int routeNumber) async {
